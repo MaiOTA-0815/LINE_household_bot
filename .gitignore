@@ -5,3 +5,4 @@ _pycache_/
 *.log
 venv/
 myenv/
+zappa_settings.json
