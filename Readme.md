@@ -1,3 +1,75 @@
+# 📊 LINE Household Bot（LINE家計簿Bot）
+
+**日本語 | [English](#-english-version)**  
+
+---
+
+## 📝 概要
+LINEで入力した支出を、AWS Lambda経由でNotionに自動登録するBotです。  
+日々の家計管理をLINE上で簡単に記録できます。
+
+---
+
+## 🛠 使用技術
+- Python 3.10  
+- Flask  
+- LINE Messaging API（line-bot-sdk）  
+- Notion API（notion-client）  
+- AWS Lambda + API Gateway（Zappa）  
+- Git / GitHub  
+
+---
+
+## 🚀 セットアップ方法（ローカル）
+1. **仮想環境の作成と有効化**
+    ```bash
+    python -m venv venv
+    source venv/Scripts/activate  # Windows（Git Bash）
+    ```
+
+2. **ライブラリのインストール**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3. **`.env`ファイルの作成**  
+   以下を記載し、`.gitignore`でGit管理対象外にします。
+    ```
+    LINE_CHANNEL_ACCESS_TOKEN=あなたのトークン
+    LINE_CHANNEL_SECRET=あなたのシークレット
+    NOTION_TOKEN=あなたのNotionトークン
+    DATABASE_ID=あなたのNotionデータベースID
+    ```
+
+4. **ローカルサーバ起動**
+    ```bash
+    python line-bot-server.py
+    ```
+
+5. **テスト用に公開（Ngrok）**
+    ```bash
+    ngrok http 5000
+    ```
+    出力されたURLをLINE DevelopersのWebhook URLに設定。
+
+---
+
+## ☁ デプロイ（AWS Lambda）
+1. 初回デプロイ  
+    ```bash
+    zappa deploy dev
+    ```
+2. 更新時  
+    ```bash
+    zappa update dev
+    ```
+3. LINE DevelopersのWebhook URLを、Zappa発行のAPI Gateway URLに変更。
+
+---
+
+## 📩 メッセージ送信フォーマット
+2025/08/01 食費 1200 スーパーで買い物
+
 **Notion登録項目**  
 - 日付：2025/08/01  
 - カテゴリ：食費  
